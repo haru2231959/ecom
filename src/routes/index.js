@@ -4,8 +4,18 @@ const router = express.Router();
 // Import API routes
 const apiV1Routes = require('./api/v1');
 
+// Import test routes
+const testRoutes = require('./test');
+
 // Import webhook routes
 // const webhookRoutes = require('./webhooks');
+
+/**
+ * Test Routes (for development)
+ */
+if (process.env.NODE_ENV !== 'production') {
+  router.use('/test', testRoutes);
+}
 
 /**
  * API Routes
@@ -30,6 +40,7 @@ router.get('/', (req, res) => {
     version: '1.0.0',
     endpoints: {
       v1: '/api/v1',
+      test: process.env.NODE_ENV !== 'production' ? '/api/test' : undefined,
       health: '/health',
       docs: process.env.NODE_ENV !== 'production' ? '/api-docs' : null
     },

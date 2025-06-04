@@ -20,6 +20,7 @@ const compression = require('./compression');
 
 // Logging
 const logger = require('./logger');
+const { apiLogger, apiErrorLogger, performanceLogger } = require('./apiLogger');
 
 // Validation
 const validation = require('./validation');
@@ -44,6 +45,8 @@ const securityStack = [
  * API Middleware Stack
  */
 const apiStack = [
+  apiLogger, // Enhanced API logging
+  performanceLogger, // Performance monitoring
   logger.loggerMiddleware,
   validation.sanitize,
   cache.apiCache(),
@@ -83,7 +86,7 @@ const common = {
   // Basic security for all routes
   security: securityStack,
   
-  // API routes
+  // API routes with enhanced logging
   api: apiStack,
   
   // Protected routes requiring authentication
@@ -95,8 +98,10 @@ const common = {
   // File upload routes
   upload: uploadStack,
   
-  // Public routes with caching
+  // Public routes with caching and logging
   public: [
+    apiLogger,
+    performanceLogger,
     logger.loggerMiddleware,
     validation.sanitize,
     cache.apiCache(1800) // 30 minutes cache
@@ -104,6 +109,8 @@ const common = {
   
   // High traffic routes with aggressive caching
   cached: [
+    apiLogger,
+    performanceLogger,
     logger.loggerMiddleware,
     validation.sanitize,
     cache.apiCache(3600) // 1 hour cache
@@ -121,6 +128,11 @@ module.exports = {
   validation,
   upload,
   cache,
+  
+  // API Logging middleware
+  apiLogger,
+  apiErrorLogger,
+  performanceLogger,
   
   // Middleware stacks
   common,

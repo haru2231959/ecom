@@ -7,7 +7,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 const startServer = async () => {
   try {
     // Initialize database
-    await initializeDatabase();
+    // await initializeDatabase(); // Tạm thời comment để test
 
     // Start HTTP server
     const server = app.listen(PORT, () => {
