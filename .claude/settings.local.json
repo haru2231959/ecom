@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./docker-scripts.sh:*)",
+      "Bash(docker system prune:*)",
+      "Bash(docker builder:*)",
+      "Bash(ls:*)",
+      "Bash(docker-compose build:*)"
+    ],
+    "deny": []
+  }
+}
